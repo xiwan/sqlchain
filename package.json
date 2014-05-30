@@ -1,0 +1,25 @@
+{
+  "name": "sqlchain",
+  "version": "0.0.1",
+  "description": "nodejs module: write chaining sql and execute it",
+  "main": "./lib/sqlchain",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiwan/sqlchain.git"
+  },
+  "keywords": [
+    "sqlchain"
+  ],
+  "dependencies": {
+    "mysql": "~2.3.0"
+  },
+  "author": "Xi Wan <wanxi27@gmail.com> (https://github.com/xiwan)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiwan/sqlchain/issues"
+  },
+  "homepage": "https://github.com/xiwan/sqlchain"
+}
