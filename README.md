@@ -1,18 +1,20 @@
 # sqlchain
-========
 
 nodejs module: write chaining sql and execute it
 
 ## 下载
 
 可以通过`git`来获取源代码：
-[GitHub](https://github.com/xiwan/sqlchain)
+
+[GitHub - sqlchain](https://github.com/xiwan/sqlchain)
+
 同样，也可以使用`npm`来安装：
 
 	npm install sqlchain
 
 注意：请同时安装mysql的module 
-[GitHub](https://github.com/felixge/node-mysql)
+
+[GitHub - mysql](https://github.com/felixge/node-mysql)
 
 ## 一些例子
 
@@ -73,6 +75,15 @@ nodejs module: write chaining sql and execute it
 	sqlchain
 		.table('location')
 		.insert(location)
+		.run();
+```
+
+当然，上面的写法也支持一次插入多条数据:)
+
+```javascript
+	sqlchain
+		.table('location')
+		.insert([location1, location2, ... ])
 		.run();
 ```
 
