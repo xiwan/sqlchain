@@ -1,6 +1,6 @@
 {
   "name": "sqlchain",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "nodejs module: write chaining sql and execute it",
   "main": "./lib/sqlchain",
   "scripts": {
