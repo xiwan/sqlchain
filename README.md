@@ -92,3 +92,7 @@ nodejs module: write chaining sql and execute it
 		.run(callback);
 ```
 
+### 支持直接输入sql
+```javascript
+	sqlchain.run('SELECT * FROM location');
+```
