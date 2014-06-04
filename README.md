@@ -181,6 +181,20 @@ nodejs module: write chaining sql and execute it
 	*/
 ```
 
+### 删除数据
+
+```javascript
+	sqlchain
+	    .table('location')
+	    .delete({"id": {"$lte": 10}})
+	    .run(function(err, data){});
+
+	/*
+	DELETE FROM location 
+	WHERE id <= 10;
+	*/
+```
+
 ### 支持直接输入sql
 
 ```javascript
