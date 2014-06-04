@@ -39,7 +39,8 @@ nodejs module: write chaining sql and execute it
 ### 显示数据库
 
 ```javascript
-	sqlchain.db(); // SHOW DATABASES
+	sqlchain.db(function(err, data){}); // SHOW DATABASES
+
 	sqlchain.db('travelpath'); // USE travelpath
 ```
 
@@ -48,9 +49,15 @@ nodejs module: write chaining sql and execute it
 ### 查询表格
 
 ```javascript
-	sqlchain.table(); // SHOW TABLES;
+	sqlchain.table(function(err, data){}); // SHOW TABLES;
 
-	sqlchain.table('location').find().run(callback); // SELECT * FROM location
+	sqlchain
+		.table('location')
+		.find()
+		.filter( [{"id": 1}, {"area_id": {"$gte": 100, "$ne": 30000}, "cname": {"$like": "%beijing%"}}] )
+		.run(function(err, data){}); 
+
+	// SELECT * FROM location WHERE (id = 1) OR (area_id >= 100 AND area_id != 30000 AND cname LIKE '%beijing%')
 
 	sqlchain
 		.table('location')
@@ -58,14 +65,14 @@ nodejs module: write chaining sql and execute it
 		.group("cname")
 		.desc("id")
 		.limit(5, 10)
-		.run(callback);
+		.run(function(err, data){});
 
 	/* 与之相对应生成的sql为
 	   SELECT id, area_id, cname, lng, lat
 	   FROM location
 	   GROUP BY cname
 	   ORDER BY id DESC
-	   LIMIT 5, 10;*/
+	   LIMIT 5, 10; */
 ```
 
 ### 插入表格
@@ -80,7 +87,7 @@ nodejs module: write chaining sql and execute it
 	sqlchain
 		.table('location')
 		.insert(location)
-		.run(callback);
+		.run(function(err, data){});
 ```
 
 当然，上面的写法也支持一次插入多条数据:)
@@ -89,10 +96,10 @@ nodejs module: write chaining sql and execute it
 	sqlchain
 		.table('location')
 		.insert([location1, location2, ... ])
-		.run(callback);
+		.run(function(err, data){});
 ```
 
 ### 支持直接输入sql
 ```javascript
-	sqlchain.run('SELECT * FROM location');
+	sqlchain.run('SELECT * FROM location', function(err, data){});
 ```
