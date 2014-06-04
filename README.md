@@ -54,7 +54,7 @@ nodejs module: write chaining sql and execute it
 	sqlchain
 		.table('location')
 		.find()
-		.filter( [{"id": 1}, {"area_id": {"$gte": 100, "$ne": 30000}, "cname": {"$like": "%beijing%"}}] )
+		.filter( {"id": 1}, {"area_id": {"$gte": 100, "$ne": 30000}, "cname": {"$like": "%beijing%"}} )
 		.run(function(err, data){}); 
 
 	// SELECT * FROM location WHERE (id = 1) OR (area_id >= 100 AND area_id != 30000 AND cname LIKE '%beijing%')
@@ -73,6 +73,43 @@ nodejs module: write chaining sql and execute it
 	   GROUP BY cname
 	   ORDER BY id DESC
 	   LIMIT 5, 10; */
+```
+
+#### filter使用规则
+
+符号对应关系
+
+```text
+	$eq			: 	=
+	$ne 		:	!=
+	$lt 		: 	<
+	$gt 		:   >
+	$lte 		:	<=
+	$gte 		:   >=
+	$in 		:   IN
+	$ni     	:	NOT IN
+	$like       :   LIKE %...%
+
+```
+
+逻辑关系
+
+	{...} 对象内属于 AND 关系
+
+```javascript
+	{"id":1, "name":"xiwan"} // id=1 AND name='xiwan'
+```
+
+	{...} 对象间属于 OR 关系
+
+```javascript
+	{"id":1}, {"name":{"$like", "xiwan"}} // id=1 OR name LIKE '%xiwan%'
+```
+	
+	复合使用
+
+```javascript
+	{"id":[{$gt: 1}, ${lt: 10}], "name":"xiwan"} // (id>1 OR id<10) AND name='xiwan'
 ```
 
 ### 插入表格
