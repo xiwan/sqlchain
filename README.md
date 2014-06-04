@@ -53,7 +53,7 @@ nodejs module: write chaining sql and execute it
 
 	sqlchain
 		.table('location')
-		.find()
+		.find() // 因为这里是查找所有列， find 方法也可以省略
 		.filter( {"id": 1}, {"area_id": {"$gte": 100, "$ne": 30000}, "cname": {"$like": "%beijing%"}} )
 		.run(function(err, data){}); 
 
@@ -135,10 +135,10 @@ nodejs module: write chaining sql and execute it
 #### 如何排序
 
 ```javascript
-	.sort("id"); // 默认倒序 DESC
-	.sort("id", true) // 正序 ASC
-	.desc("id")
-	.asc("id")
+	.sort(); // 默认 id 倒序 DESC
+	.sort("cname", true) // 正序 ASC
+	.desc("date")
+	.asc("date")
 ```
 
 ### 插入数据
@@ -195,9 +195,25 @@ nodejs module: write chaining sql and execute it
 	*/
 ```
 
-### 支持直接输入sql
+### 其他特性
+
+支持直接sql
 
 ```javascript
 	sqlchain.run('SELECT * FROM location', function(err, data){});
+```
+
+补充sql
+
+```javascript
+	sqlchain
+		.table('location')
+		.append("WHERE id>1 AND id<=10")
+		.run(function(err, data){});
+
+	sqlchain
+		.table('location')
+		.filter("id>1 AND id<=10")
+		.run(function(err, data){});
 ```
 
