@@ -94,22 +94,20 @@ nodejs module: write chaining sql and execute it
 
 逻辑关系
 
+```text
 	{...} 对象内属于 AND 关系
-
-```javascript
 	{"id":1, "name":"xiwan"} // id=1 AND name='xiwan'
 ```
 
+```text
 	{...} 对象间属于 OR 关系
-
-```javascript
 	{"id":1}, {"name":{"$like", "xiwan"}} // id=1 OR name LIKE '%xiwan%'
 ```
-	
-	复合使用
 
-```javascript
-	{"id":[{$gt: 1}, ${lt: 10}], "name":"xiwan"} // (id>1 OR id<10) AND name='xiwan'
+```text	
+	复合使用
+	{"id":[{$gt: 1}, {$lt: 10}], "name":"xiwan"} // (id>1 OR id<10) AND name='xiwan'
+	{"id":{$gt: 1, $lt: 10}}, {"name":"xiwan"} // (id>1 AND id<10) OR name='xiwan'
 ```
 
 ### 插入表格
