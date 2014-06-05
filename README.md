@@ -1,6 +1,44 @@
-# sqlchain
+# sqlchain (in-Dev)
 
-nodejs module: write chaining sql and execute it
+Being tired of concating a giant sql and throw it to the query?! Look a terrible example below:
+
+```javascript
+	var insertSQL = 'INSERT INTO geoCoder (address, city, location_lat, location_lng, precise, confidence, level, cityCode, district, province, street, street_number, formatted_address, business)';
+	insertSQL += 'VALUES ("'+address+'", "'+city+'", '+location_lat+', '+location_lng+', '+precise+', '+confidence+', "'+level+'", '+cityCode+', "'+district+'", "'+province+'", "'+street+'", "'+street_number+'", "'+formatted_address+'", "'+business+'")';	
+
+	connection.query(insertSQL, function(err, rows){
+		if (err) {throw err;}
+		connection.release();
+	});
+
+```
+
+By slqchain, every line of sql is so well formatted in chaining style. Why not try an elegent solution:
+
+```javascript
+	var geoCoder = { 
+		address: '三国城',
+  		city: '无锡',
+		location_lat: 31.481714090036,
+		location_lng: 120.23922778783,
+		precise: 0,
+		confidence: 25,
+		level: '',
+		cityCode: 317,
+		district: '滨湖区',
+		province: '江苏省',
+		street: '山水西路',
+		street_number: '',
+		formatted_address: '江苏省无锡市滨湖区山水西路',
+		business: '' 
+  	};
+
+	sqlchain
+		.table("geoCoder")
+	    .insert(geoCoder)
+	    .run();
+
+```
 
 ## 下载
 
