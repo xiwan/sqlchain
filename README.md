@@ -1,6 +1,6 @@
 # sqlchain (in-Dev)
 
-Being tired of concating a giant sql and throw it to the query?! Look a terrible example below:
+Being tired of concating a giant sql and throw it to the query?! Look at a terrible example below:
 
 ```javascript
 	var insertSQL = 'INSERT INTO geoCoder (address, city, location_lat, location_lng, precise, confidence, level, cityCode, district, province, street, street_number, formatted_address, business)';
@@ -190,7 +190,7 @@ By slqchain, every line of sql is so well formatted in chaining style. Why not t
 
 	sqlchain
 		.table('location')
-		.save(location)
+		.insert(location)
 		.run(function(err, data){});
 ```
 
@@ -199,7 +199,7 @@ By slqchain, every line of sql is so well formatted in chaining style. Why not t
 ```javascript
 	sqlchain
 		.table('location')
-		.save([location1, location2, ... ])
+		.insert([location1, location2, ... ])
 		.run(function(err, data){});
 ```
 
@@ -231,6 +231,55 @@ By slqchain, every line of sql is so well formatted in chaining style. Why not t
 	DELETE FROM location 
 	WHERE id <= 10;
 	*/
+```
+
+### 事务支持 (0.2.0)
+
+你要做的其实很简单，把需要执行的sql，放在 begin 和 commit/rollback 之间就可以了
+
+```javascript
+
+	sqlchain
+		.begin(function(){
+			sqlchain
+				.table('geocoder')
+				.delete({"id": {"$lte": 10}})
+				.run(function(){
+					sqlchain.commit(function(){}); // replace 'commit' with 'rollback', if dont want to commit.
+				});
+		});
+
+```
+
+Still disgusting about all these callback stacks，you can also use [GitHub - async](https://github.com/caolan/async) to make it more beautiful：
+
+```javascript
+
+	async.waterfall([
+		function(callback) {
+			sqlchain
+				.begin(callback);
+		},
+		function(data, callback) {
+			sqlchain
+				.table('table1')
+				.insert(data)
+				.run(callback);
+		},
+		function(data, callback) {
+			sqlchain
+				.table('table2')
+				.delete({"id": 1})
+				.run(callback);
+		},
+	], function(err, results){
+		sqlchain
+			.commit(function(err){
+				// conintinue 
+			});
+
+	});
+
 ```
 
 ### 其他特性
